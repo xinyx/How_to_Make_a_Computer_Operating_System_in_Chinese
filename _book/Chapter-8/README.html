@@ -1,0 +1,392 @@
+<!DOCTYPE HTML>
+<html lang="en-US" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>内存管理:物理内存和虚存 | 如何做一个计算机操作系统</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="这是一本介绍用C/C++从零开始写一个操作系统的在线书籍">
+        <meta name="keywords" content="">
+        <meta name="generator" content="GitBook 1.5.0">
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+        
+    
+    
+    
+    <link rel="prev" href="../Chapter-7/README.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="8" data-basepath=".." data-revision="1425819891260">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+    	
+    	
+    	
+
+        
+
+        
+    
+        
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                         介绍
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="1" data-path="Chapter-1/README.html">
+            
+                
+                    <a href="../Chapter-1/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                         介绍x86体系结构和我们的操作系统
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="2" data-path="Chapter-2/README.html">
+            
+                
+                    <a href="../Chapter-2/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                         建立开发环境
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="3" data-path="Chapter-3/README.html">
+            
+                
+                    <a href="../Chapter-3/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                         GRUB的初次启动
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="4" data-path="Chapter-4/README.html">
+            
+                
+                    <a href="../Chapter-4/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                         操作系统的主干和C++运行时
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="5" data-path="Chapter-5/README.html">
+            
+                
+                    <a href="../Chapter-5/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                         管理x86体系结构的基础类
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="6" data-path="Chapter-6/README.html">
+            
+                
+                    <a href="../Chapter-6/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                         GDT
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="7" data-path="Chapter-7/README.html">
+            
+                
+                    <a href="../Chapter-7/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                         IDT和中断
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter active" data-level="8" data-path="Chapter-8/README.html">
+            
+                
+                    <a href="../Chapter-8/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                         内存管理:物理内存和虚存
+                    </a>
+                
+            
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+    	
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header clearfix">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle share dropdown"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="instapaper" class="button">Instapaper</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right weibo-sharing-link sharing-link" data-sharing="weibo" aria-label="Share on Weibo"><i class="fa fa-weibo"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right qq-sharing-link sharing-link" data-sharing="qq" aria-label="Share on QQ"><i class="fa fa-qq"></i></a>
+    
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn qrcode-toggle-dropdown qrcode-sharing-link sharing-link" data-sharing="qrcode"  aria-label="Share on QRCode"><i class="fa fa-qrcode"></i></a>
+        <div class="dropdown-menu font-settings dropdown-left" id="dropdown-qrcode">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="qrcode" id="qrcode">
+                <input type="hidden" name="last_url" id="last_url" value="" />
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >如何做一个计算机操作系统</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-gitbook_325">
+                    
+                        <h2 id="-">第八章: 内存管理:物理内存和虚存</h2>
+<p>在与GDT相关的一章中, 我们看到使用段机制, 物理内存地址要用一个段选择子和一个偏移计算. </p>
+<p>在本章, 我们将实现分页. 分页将线性地址从段映射到物理地址. </p>
+<h4 id="">我们为什么要分页?</h4>
+<p>分页机制允许我们的内核: </p>
+<ul>
+<li>像内存一样使用硬盘驱动器, 并且不会受限于机器的ram容量.</li>
+<li>为每个进程分配独有的内存空间. </li>
+<li>动态控制内存空间是否有效. </li>
+</ul>
+<p>在分页系统中, 每个进程可以执行在它的的4Gb内存中, 绝不会影响其他进程或内核的内存. 它简化了多任务调度.</p>
+<p><img src="processes.png" alt="Processes memories"></p>
+<h4 id="">它是怎么工作的?</h4>
+<p>从线性地址到物理地址的映射需经过多步:</p>
+<ol>
+<li>处理器通过<code>CR3</code>寄存器知道页目录表的起始地址.</li>
+<li>线性地址的前十位表示一个偏移(0~1023), 指向页目录表中的一项. 这一项包含一个页表的物理地址. </li>
+<li>线性地址接下开的10位也表示一个偏移, 指向页表中的一项, 这一项指向一个4KB页帧.</li>
+<li>线性地址的最后12位表示偏移(0~4095), 表示在4KB页帧中的位置.</li>
+</ol>
+<p><img src="paging_memory.png" alt="Address translation"></p>
+<h4 id="">格式化你的页表和页目录表</h4>
+<p>这两个类型的表项(表和目录)看起来是一样的. 我们的操作系统只会使用标灰的区域. </p>
+<p><img src="page_directory_entry.png" alt="Page directory entry"></p>
+<p><img src="page_table_entry.png" alt="Page table entry"></p>
+<ul>
+<li><code>P</code>: 指示这个页或者表是否在物理内存中</li>
+<li><code>R/W</code>: 指示这个页或者表能否写(值等于1)</li>
+<li><code>U/S</code>: 等于1时允许访问非首选任务</li>
+<li><code>A</code>: 指示这个页或页表有没有被访问</li>
+<li><code>D</code>: (只对页表有意义)指示页有没有被写</li>
+<li><code>PS</code> (只对页目录表有意义)指示页大小<ul>
+<li>0 = 4ko</li>
+<li>1 = 4mo</li>
+</ul>
+</li>
+</ul>
+<p><strong>注解:</strong> 页目录和页表中的物理地址用20位表示, 这是因为这些地址是4KB对齐的, 所以后12位等于0.</p>
+<ul>
+<li>页目录和页表占用 1024*4 = 4096 bytes = 4k</li>
+<li>一个页表能寻址 1024 * 4k = 4 Mo</li>
+<li>一个页目录能寻址 1024 <em> (1024 </em> 4k) = 4 Go</li>
+</ul>
+<h4 id="">怎样开启分页?</h4>
+<p>为了开启分页, 只需设置 <code>CR0</code> 的第31位为1即可.</p>
+<pre><code class="lang-asm">asm(&quot;  mov %%cr0, %%eax; \
+       or %1, %%eax;     \
+       mov %%eax, %%cr0&quot; \
+       :: &quot;i&quot;(0x80000000));
+</code></pre>
+<p>但是在之前, 我们需要至少一个也来初始化我们的页目录. </p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../Chapter-7/README.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: IDT和中断"><i class="fa fa-angle-left"></i></a>
+        
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-ga/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-duoshuo/duoshuo.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-livereload/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":"white","family":"serif","size":2},"ga":{"token":"UA-39088953-8"},"duoshuo":{"short_name":"wiznote","theme":"default"}};
+    gitbook.start(config);
+});
+</script>
+
+        <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-39088953-8', 'auto');ga('send', 'pageview');</script>
+    </body>
+    
+</html>

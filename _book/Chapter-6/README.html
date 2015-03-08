@@ -1,0 +1,440 @@
+<!DOCTYPE HTML>
+<html lang="en-US" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>GDT | 如何做一个计算机操作系统</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="这是一本介绍用C/C++从零开始写一个操作系统的在线书籍">
+        <meta name="keywords" content="">
+        <meta name="generator" content="GitBook 1.5.0">
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+        
+    
+    
+    <link rel="next" href="../Chapter-7/README.html" />
+    
+    
+    <link rel="prev" href="../Chapter-5/README.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="6" data-basepath=".." data-revision="1425819891260">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+    	
+    	
+    	
+
+        
+
+        
+    
+        
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                         介绍
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="1" data-path="Chapter-1/README.html">
+            
+                
+                    <a href="../Chapter-1/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                         介绍x86体系结构和我们的操作系统
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="2" data-path="Chapter-2/README.html">
+            
+                
+                    <a href="../Chapter-2/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                         建立开发环境
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="3" data-path="Chapter-3/README.html">
+            
+                
+                    <a href="../Chapter-3/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                         GRUB的初次启动
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="4" data-path="Chapter-4/README.html">
+            
+                
+                    <a href="../Chapter-4/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                         操作系统的主干和C++运行时
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="5" data-path="Chapter-5/README.html">
+            
+                
+                    <a href="../Chapter-5/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                         管理x86体系结构的基础类
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter active" data-level="6" data-path="Chapter-6/README.html">
+            
+                
+                    <a href="../Chapter-6/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                         GDT
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="7" data-path="Chapter-7/README.html">
+            
+                
+                    <a href="../Chapter-7/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                         IDT和中断
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="8" data-path="Chapter-8/README.html">
+            
+                
+                    <a href="../Chapter-8/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                         内存管理:物理内存和虚存
+                    </a>
+                
+            
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+    	
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header clearfix">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle share dropdown"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="instapaper" class="button">Instapaper</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right weibo-sharing-link sharing-link" data-sharing="weibo" aria-label="Share on Weibo"><i class="fa fa-weibo"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right qq-sharing-link sharing-link" data-sharing="qq" aria-label="Share on QQ"><i class="fa fa-qq"></i></a>
+    
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn qrcode-toggle-dropdown qrcode-sharing-link sharing-link" data-sharing="qrcode"  aria-label="Share on QRCode"><i class="fa fa-qrcode"></i></a>
+        <div class="dropdown-menu font-settings dropdown-left" id="dropdown-qrcode">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="qrcode" id="qrcode">
+                <input type="hidden" name="last_url" id="last_url" value="" />
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >如何做一个计算机操作系统</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-gitbook_330">
+                    
+                        <h2 id="-gdt">第六章: GDT</h2>
+<p>多亏了GRUB, 你的内核不再是在实模式, 而是早已在<a href="http://en.wikipedia.org/wiki/Protected_mode" target="_blank">保护模式</a>, 这个模式使我们能够使用微处理器的所有的可能功能, 如虚拟内存管理、分页和安全的多任务. </p>
+<h4 id="gdt">什么是GDT?</h4>
+<p><a href="http://en.wikipedia.org/wiki/Global_Descriptor_Table" target="_blank">GDT</a> (&quot;全局描述符表&quot;)是一种用于定义不同的内存区域--基地址、大小和访问权限, 例如执行,写--的数据结构。这些内存区域被称为“段”. </p>
+<p>我们将使用GDT来定义不同的内存段: </p>
+<ul>
+<li><em>&quot;code&quot;</em>:内核代码, 用于存储可执行二进制代码</li>
+<li><em>&quot;data&quot;</em>: 内核数据</li>
+<li><em>&quot;stack&quot;</em>: 内核栈, 用于存储内核执行过程中的调用栈</li>
+<li><em>&quot;ucode&quot;</em>: 用户代码, 用于存储用户程序的可执行二进制代码</li>
+<li><em>&quot;udata&quot;</em>: 用户程序数据</li>
+<li><em>&quot;ustack&quot;</em>: 用户栈, 用于存储用户态执行过程中的调用栈</li>
+</ul>
+<h4 id="gdt">怎样加载GDT?</h4>
+<p>GRUB初始化一个GDT, 但这GDT并不对应于我们的内核. GDT是被LGDT这条汇编指令加载的. 它期望GDT描述结构的位置为:</p>
+<p><img src="gdtr.png" alt="GDTR"></p>
+<p>C结构是:</p>
+<pre><code class="lang-cpp"><span class="hljs-keyword">struct</span> gdtr {
+    u16 limite;
+    u32 base;
+} __attribute__ ((packed));
+</code></pre>
+<p><strong>注意:</strong> “<strong>attribute</strong>((packed))“指令会通知gcc, 应该尽可能使用小端方式使用这个结构。如果没有这个指令, gcc将加进一些字节来优化内存对齐和期间执行的访问. </p>
+<p>现在我们需要定义GDT表, 然后使用LGDT加载它. GDT表可以存储在内存中的任何位置, 只需使用GDTR寄存器将它的地址发送给进程即可.</p>
+<p>GDT表由具有如下结构的段组成: </p>
+<p><img src="gdtentry.png" alt="GDTR"></p>
+<p>C结构如下: </p>
+<pre><code class="lang-cpp"><span class="hljs-keyword">struct</span> gdtdesc {
+    u16 lim0_15;
+    u16 base0_15;
+    u8 base16_23;
+    u8 acces;
+    u8 lim16_19:<span class="hljs-number">4</span>;
+    u8 other:<span class="hljs-number">4</span>;
+    u8 base24_31;
+} __attribute__ ((packed));
+</code></pre>
+<h4 id="gdt">怎样定义我们的GDT表?</h4>
+<p>现在我们需要在内存中定义我们的GDT, 并最终用GDTR寄存器将其加载. </p>
+<p>我们将GDT存在如下地址:</p>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GDTBASE    0x00000800</span>
+</code></pre>
+<p> <a href="https://github.com/SamyPesse/How-to-Make-a-Computer-Operating-System/blob/master/src/kernel/arch/x86/x86.cc" target="_blank">x86.cc</a>中的函数<strong>init_gdt_desc</strong>初始化hi个gdt段描述符. </p>
+<pre><code class="lang-cpp"><span class="hljs-keyword">void</span> init_gdt_desc(u32 base, u32 limite, u8 acces, u8 other, <span class="hljs-keyword">struct</span> gdtdesc *desc)
+{
+    desc-&gt;lim0_15 = (limite &amp; <span class="hljs-number">0xffff</span>);
+    desc-&gt;base0_15 = (base &amp; <span class="hljs-number">0xffff</span>);
+    desc-&gt;base16_23 = (base &amp; <span class="hljs-number">0xff0000</span>) &gt;&gt; <span class="hljs-number">16</span>;
+    desc-&gt;acces = acces;
+    desc-&gt;lim16_19 = (limite &amp; <span class="hljs-number">0xf0000</span>) &gt;&gt; <span class="hljs-number">16</span>;
+    desc-&gt;other = (other &amp; <span class="hljs-number">0xf</span>);
+    desc-&gt;base24_31 = (base &amp; <span class="hljs-number">0xff000000</span>) &gt;&gt; <span class="hljs-number">24</span>;
+    <span class="hljs-keyword">return</span>;
+}
+</code></pre>
+<p>函数<strong>init_gdt</strong> 初始化GDT, 下面函数的一些部分将在后面解释, 并用于多任务.</p>
+<pre><code class="lang-cpp"><span class="hljs-keyword">void</span> init_gdt(<span class="hljs-keyword">void</span>)
+{
+    default_tss.debug_flag = <span class="hljs-number">0x00</span>;
+    default_tss.io_map = <span class="hljs-number">0x00</span>;
+    default_tss.esp0 = <span class="hljs-number">0x1FFF0</span>;
+    default_tss.ss0 = <span class="hljs-number">0x18</span>;
+
+    <span class="hljs-comment">/* initialize gdt segments */</span>
+    init_gdt_desc(<span class="hljs-number">0x0</span>, <span class="hljs-number">0x0</span>, <span class="hljs-number">0x0</span>, <span class="hljs-number">0x0</span>, &amp;kgdt[<span class="hljs-number">0</span>]);
+    init_gdt_desc(<span class="hljs-number">0x0</span>, <span class="hljs-number">0xFFFFF</span>, <span class="hljs-number">0x9B</span>, <span class="hljs-number">0x0D</span>, &amp;kgdt[<span class="hljs-number">1</span>]);    <span class="hljs-comment">/* code */</span>
+    init_gdt_desc(<span class="hljs-number">0x0</span>, <span class="hljs-number">0xFFFFF</span>, <span class="hljs-number">0x93</span>, <span class="hljs-number">0x0D</span>, &amp;kgdt[<span class="hljs-number">2</span>]);    <span class="hljs-comment">/* data */</span>
+    init_gdt_desc(<span class="hljs-number">0x0</span>, <span class="hljs-number">0x0</span>, <span class="hljs-number">0x97</span>, <span class="hljs-number">0x0D</span>, &amp;kgdt[<span class="hljs-number">3</span>]);        <span class="hljs-comment">/* stack */</span>
+
+    init_gdt_desc(<span class="hljs-number">0x0</span>, <span class="hljs-number">0xFFFFF</span>, <span class="hljs-number">0xFF</span>, <span class="hljs-number">0x0D</span>, &amp;kgdt[<span class="hljs-number">4</span>]);    <span class="hljs-comment">/* ucode */</span>
+    init_gdt_desc(<span class="hljs-number">0x0</span>, <span class="hljs-number">0xFFFFF</span>, <span class="hljs-number">0xF3</span>, <span class="hljs-number">0x0D</span>, &amp;kgdt[<span class="hljs-number">5</span>]);    <span class="hljs-comment">/* udata */</span>
+    init_gdt_desc(<span class="hljs-number">0x0</span>, <span class="hljs-number">0x0</span>, <span class="hljs-number">0xF7</span>, <span class="hljs-number">0x0D</span>, &amp;kgdt[<span class="hljs-number">6</span>]);        <span class="hljs-comment">/* ustack */</span>
+
+    init_gdt_desc((u32) &amp; default_tss, <span class="hljs-number">0x67</span>, <span class="hljs-number">0xE9</span>, <span class="hljs-number">0x00</span>, &amp;kgdt[<span class="hljs-number">7</span>]);    <span class="hljs-comment">/* descripteur de tss */</span>
+
+    <span class="hljs-comment">/* initialize the gdtr structure */</span>
+    kgdtr.limite = GDTSIZE * <span class="hljs-number">8</span>;
+    kgdtr.base = GDTBASE;
+
+    <span class="hljs-comment">/* copy the gdtr to its memory area */</span>
+    <span class="hljs-built_in">memcpy</span>((<span class="hljs-keyword">char</span> *) kgdtr.base, (<span class="hljs-keyword">char</span> *) kgdt, kgdtr.limite);
+
+    <span class="hljs-comment">/* load the gdtr registry */</span>
+    <span class="hljs-keyword">asm</span>(<span class="hljs-string">"lgdtl (kgdtr)"</span>);
+
+    <span class="hljs-comment">/* initiliaz the segments */</span>
+    <span class="hljs-keyword">asm</span>(<span class="hljs-string">"   movw $0x10, %ax    \n \
+            movw %ax, %ds    \n \
+            movw %ax, %es    \n \
+            movw %ax, %fs    \n \
+            movw %ax, %gs    \n \
+            ljmp $0x08, $next    \n \
+            next:        \n"</span>);
+}
+</code></pre>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../Chapter-5/README.html" class="navigation navigation-prev " aria-label="Previous page: 管理x86体系结构的基础类"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../Chapter-7/README.html" class="navigation navigation-next " aria-label="Next page: IDT和中断"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-ga/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-duoshuo/duoshuo.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-livereload/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":"white","family":"serif","size":2},"ga":{"token":"UA-39088953-8","configuration":"auto"},"duoshuo":{"short_name":"wiznote","theme":"default"}};
+    gitbook.start(config);
+});
+</script>
+
+        <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-39088953-8', 'auto');ga('send', 'pageview');</script>
+    </body>
+    
+</html>

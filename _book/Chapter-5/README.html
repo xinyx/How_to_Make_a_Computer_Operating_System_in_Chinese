@@ -1,0 +1,526 @@
+<!DOCTYPE HTML>
+<html lang="en-US" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>管理x86体系结构的基础类 | 如何做一个计算机操作系统</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="这是一本介绍用C/C++从零开始写一个操作系统的在线书籍">
+        <meta name="keywords" content="">
+        <meta name="generator" content="GitBook 1.5.0">
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+        
+    
+    
+    <link rel="next" href="../Chapter-6/README.html" />
+    
+    
+    <link rel="prev" href="../Chapter-4/README.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="5" data-basepath=".." data-revision="1425819891260">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+    	
+    	
+    	
+
+        
+
+        
+    
+        
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                         介绍
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="1" data-path="Chapter-1/README.html">
+            
+                
+                    <a href="../Chapter-1/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                         介绍x86体系结构和我们的操作系统
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="2" data-path="Chapter-2/README.html">
+            
+                
+                    <a href="../Chapter-2/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                         建立开发环境
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="3" data-path="Chapter-3/README.html">
+            
+                
+                    <a href="../Chapter-3/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                         GRUB的初次启动
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="4" data-path="Chapter-4/README.html">
+            
+                
+                    <a href="../Chapter-4/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                         操作系统的主干和C++运行时
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter active" data-level="5" data-path="Chapter-5/README.html">
+            
+                
+                    <a href="../Chapter-5/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                         管理x86体系结构的基础类
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="6" data-path="Chapter-6/README.html">
+            
+                
+                    <a href="../Chapter-6/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                         GDT
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="7" data-path="Chapter-7/README.html">
+            
+                
+                    <a href="../Chapter-7/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                         IDT和中断
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="8" data-path="Chapter-8/README.html">
+            
+                
+                    <a href="../Chapter-8/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                         内存管理:物理内存和虚存
+                    </a>
+                
+            
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+    	
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header clearfix">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle share dropdown"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="instapaper" class="button">Instapaper</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right weibo-sharing-link sharing-link" data-sharing="weibo" aria-label="Share on Weibo"><i class="fa fa-weibo"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right qq-sharing-link sharing-link" data-sharing="qq" aria-label="Share on QQ"><i class="fa fa-qq"></i></a>
+    
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn qrcode-toggle-dropdown qrcode-sharing-link sharing-link" data-sharing="qrcode"  aria-label="Share on QRCode"><i class="fa fa-qrcode"></i></a>
+        <div class="dropdown-menu font-settings dropdown-left" id="dropdown-qrcode">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="qrcode" id="qrcode">
+                <input type="hidden" name="last_url" id="last_url" value="" />
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >如何做一个计算机操作系统</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-gitbook_329">
+                    
+                        <h2 id="-x86">第五章: 管理x86体系结构的基础类</h2>
+<p>现在,我们知道如何编译c++内核和使用GRUB引导二进制程序了, 我们可以开始用C/C++做一些很酷的东西了. </p>
+<h4 id="">打印到屏幕控制台</h4>
+<p>我们将使用VGA默认模式(03h)向用户显示一些文本. 利用0xB8000视频内存, 屏幕可以被直接访问. 屏幕分辨率是80x25, 在屏幕上的每个字符被定义为2字节: 一个字符代码, 和一个格式标志. 这意味着视频内存的总大小是4000B(80B<em>25B</em>2B). </p>
+<p>在IO类(<a href="https://github.com/SamyPesse/How-to-Make-a-Computer-Operating-System/blob/master/src/kernel/arch/x86/io.cc" target="_blank">io.cc</a>),:</p>
+<ul>
+<li><strong>x,y</strong>: define the cursor position on the screen</li>
+<li><strong>real_screen</strong>: define the  video memory pointer</li>
+<li><strong>putc(char c)</strong>: print a unique character on the screen and manage cursor position</li>
+<li><strong>printf(char* s, ...)</strong>: print a string</li>
+</ul>
+<p>我们在<a href="https://github.com/SamyPesse/How-to-Make-a-Computer-Operating-System/blob/master/src/kernel/arch/x86/io.cc" target="_blank">IO Class</a>中添加一个方法<strong>putc</strong>来在屏幕上放置一个字符, 并更新(x, y)位置. </p>
+<pre><code class="lang-cpp"><span class="hljs-comment">/* put a byte on screen */</span>
+<span class="hljs-keyword">void</span> Io::putc(<span class="hljs-keyword">char</span> c){
+    kattr = <span class="hljs-number">0x07</span>;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> *video;
+    video = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> *) (real_screen+ <span class="hljs-number">2</span> * x + <span class="hljs-number">160</span> * y);
+    <span class="hljs-comment">// newline</span>
+    <span class="hljs-keyword">if</span> (c == <span class="hljs-string">'\n'</span>) {
+        x = <span class="hljs-number">0</span>;
+        y++;
+    <span class="hljs-comment">// back space</span>
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (c == <span class="hljs-string">'\b'</span>) {
+        <span class="hljs-keyword">if</span> (x) {
+            *(video + <span class="hljs-number">1</span>) = <span class="hljs-number">0x0</span>;
+            x--;
+        }
+    <span class="hljs-comment">// horizontal tab</span>
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (c == <span class="hljs-string">'\t'</span>) {
+        x = x + <span class="hljs-number">8</span> - (x % <span class="hljs-number">8</span>);
+    <span class="hljs-comment">// carriage return</span>
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (c == <span class="hljs-string">'\r'</span>) {
+        x = <span class="hljs-number">0</span>;
+    } <span class="hljs-keyword">else</span> {
+        *video = c;
+        *(video + <span class="hljs-number">1</span>) = kattr;
+
+        x++;
+        <span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">79</span>) {
+            x = <span class="hljs-number">0</span>;
+            y++;
+        }
+    }
+    <span class="hljs-keyword">if</span> (y &gt; <span class="hljs-number">24</span>)
+        scrollup(y - <span class="hljs-number">24</span>);
+}
+</code></pre>
+<p>我们也添加了一个有用且有名的方法: <a href="https://github.com/SamyPesse/How-to-Make-a-Computer-Operating-System/blob/master/src/kernel/arch/x86/io.cc#L155" target="_blank">printf</a></p>
+<pre><code class="lang-cpp"><span class="hljs-comment">/* put a string in screen */</span>
+<span class="hljs-keyword">void</span> Io::print(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *s, ...){
+    va_list ap;
+
+    <span class="hljs-keyword">char</span> buf[<span class="hljs-number">16</span>];
+    <span class="hljs-keyword">int</span> i, j, size, buflen, neg;
+
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> c;
+    <span class="hljs-keyword">int</span> ival;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> uival;
+
+    va_start(ap, s);
+
+    <span class="hljs-keyword">while</span> ((c = *s++)) {
+        size = <span class="hljs-number">0</span>;
+        neg = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">if</span> (c == <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (c == <span class="hljs-string">'%'</span>) {
+            c = *s++;
+            <span class="hljs-keyword">if</span> (c &gt;= <span class="hljs-string">'0'</span> &amp;&amp; c &lt;= <span class="hljs-string">'9'</span>) {
+                size = c - <span class="hljs-string">'0'</span>;
+                c = *s++;
+            }
+
+            <span class="hljs-keyword">if</span> (c == <span class="hljs-string">'d'</span>) {
+                ival = va_arg(ap, <span class="hljs-keyword">int</span>);
+                <span class="hljs-keyword">if</span> (ival &lt; <span class="hljs-number">0</span>) {
+                    uival = <span class="hljs-number">0</span> - ival;
+                    neg++;
+                } <span class="hljs-keyword">else</span>
+                    uival = ival;
+                itoa(buf, uival, <span class="hljs-number">10</span>);
+
+                buflen = <span class="hljs-built_in">strlen</span>(buf);
+                <span class="hljs-keyword">if</span> (buflen &lt; size)
+                    <span class="hljs-keyword">for</span> (i = size, j = buflen; i &gt;= <span class="hljs-number">0</span>;
+                         i--, j--)
+                        buf[i] =
+                            (j &gt;=
+                             <span class="hljs-number">0</span>) ? buf[j] : <span class="hljs-string">'0'</span>;
+
+                <span class="hljs-keyword">if</span> (neg)
+                    print(<span class="hljs-string">"-%s"</span>, buf);
+                <span class="hljs-keyword">else</span>
+                    print(buf);
+            }
+             <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (c == <span class="hljs-string">'u'</span>) {
+                uival = va_arg(ap, <span class="hljs-keyword">int</span>);
+                itoa(buf, uival, <span class="hljs-number">10</span>);
+
+                buflen = <span class="hljs-built_in">strlen</span>(buf);
+                <span class="hljs-keyword">if</span> (buflen &lt; size)
+                    <span class="hljs-keyword">for</span> (i = size, j = buflen; i &gt;= <span class="hljs-number">0</span>;
+                         i--, j--)
+                        buf[i] =
+                            (j &gt;=
+                             <span class="hljs-number">0</span>) ? buf[j] : <span class="hljs-string">'0'</span>;
+
+                print(buf);
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (c == <span class="hljs-string">'x'</span> || c == <span class="hljs-string">'X'</span>) {
+                uival = va_arg(ap, <span class="hljs-keyword">int</span>);
+                itoa(buf, uival, <span class="hljs-number">16</span>);
+
+                buflen = <span class="hljs-built_in">strlen</span>(buf);
+                <span class="hljs-keyword">if</span> (buflen &lt; size)
+                    <span class="hljs-keyword">for</span> (i = size, j = buflen; i &gt;= <span class="hljs-number">0</span>;
+                         i--, j--)
+                        buf[i] =
+                            (j &gt;=
+                             <span class="hljs-number">0</span>) ? buf[j] : <span class="hljs-string">'0'</span>;
+
+                print(<span class="hljs-string">"0x%s"</span>, buf);
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (c == <span class="hljs-string">'p'</span>) {
+                uival = va_arg(ap, <span class="hljs-keyword">int</span>);
+                itoa(buf, uival, <span class="hljs-number">16</span>);
+                size = <span class="hljs-number">8</span>;
+
+                buflen = <span class="hljs-built_in">strlen</span>(buf);
+                <span class="hljs-keyword">if</span> (buflen &lt; size)
+                    <span class="hljs-keyword">for</span> (i = size, j = buflen; i &gt;= <span class="hljs-number">0</span>;
+                         i--, j--)
+                        buf[i] =
+                            (j &gt;=
+                             <span class="hljs-number">0</span>) ? buf[j] : <span class="hljs-string">'0'</span>;
+
+                print(<span class="hljs-string">"0x%s"</span>, buf);
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (c == <span class="hljs-string">'s'</span>) {
+                print((<span class="hljs-keyword">char</span> *) va_arg(ap, <span class="hljs-keyword">int</span>));
+            }
+        } <span class="hljs-keyword">else</span>
+            putc(c);
+    }
+
+    <span class="hljs-keyword">return</span>;
+}
+</code></pre>
+<h4 id="">汇编接口</h4>
+<p>大量的指令在汇编层可用, 但在C(像cli, sti, in, out)中没有等效的方法. 所以我们需要这一个这些指令的接口. </p>
+<p>在C中, 我们用指令&quot;asm()&quot;来内联汇编, gcc用gas编译汇编. </p>
+<p><strong>注意:</strong> gas使用AT&amp;T语法. </p>
+<pre><code class="lang-cpp"><span class="hljs-comment">/* output byte */</span>
+<span class="hljs-keyword">void</span> Io::outb(u32 ad, u8 v){
+    asmv(<span class="hljs-string">"outb %%al, %%dx"</span> :: <span class="hljs-string">"d"</span> (ad), <span class="hljs-string">"a"</span> (v));;
+}
+<span class="hljs-comment">/* output word */</span>
+<span class="hljs-keyword">void</span> Io::outw(u32 ad, u16 v){
+    asmv(<span class="hljs-string">"outw %%ax, %%dx"</span> :: <span class="hljs-string">"d"</span> (ad), <span class="hljs-string">"a"</span> (v));
+}
+<span class="hljs-comment">/* output word */</span>
+<span class="hljs-keyword">void</span> Io::outl(u32 ad, u32 v){
+    asmv(<span class="hljs-string">"outl %%eax, %%dx"</span> : : <span class="hljs-string">"d"</span> (ad), <span class="hljs-string">"a"</span> (v));
+}
+<span class="hljs-comment">/* input byte */</span>
+u8 Io::inb(u32 ad){
+    u8 _v;       \
+    asmv(<span class="hljs-string">"inb %%dx, %%al"</span> : <span class="hljs-string">"=a"</span> (_v) : <span class="hljs-string">"d"</span> (ad)); \
+    <span class="hljs-keyword">return</span> _v;
+}
+<span class="hljs-comment">/* input word */</span>
+u16    Io::inw(u32 ad){
+    u16 _v;            \
+    asmv(<span class="hljs-string">"inw %%dx, %%ax"</span> : <span class="hljs-string">"=a"</span> (_v) : <span class="hljs-string">"d"</span> (ad));    \
+    <span class="hljs-keyword">return</span> _v;
+}
+<span class="hljs-comment">/* input word */</span>
+u32    Io::inl(u32 ad){
+    u32 _v;            \
+    asmv(<span class="hljs-string">"inl %%dx, %%eax"</span> : <span class="hljs-string">"=a"</span> (_v) : <span class="hljs-string">"d"</span> (ad));    \
+    <span class="hljs-keyword">return</span> _v;
+}
+</code></pre>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../Chapter-4/README.html" class="navigation navigation-prev " aria-label="Previous page: 操作系统的主干和C++运行时"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../Chapter-6/README.html" class="navigation navigation-next " aria-label="Next page: GDT"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-ga/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-duoshuo/duoshuo.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-livereload/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":"white","family":"serif","size":2},"ga":{"token":"UA-39088953-8","configuration":"auto"},"duoshuo":{"short_name":"wiznote","theme":"default"}};
+    gitbook.start(config);
+});
+</script>
+
+        <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-39088953-8', 'auto');ga('send', 'pageview');</script>
+    </body>
+    
+</html>

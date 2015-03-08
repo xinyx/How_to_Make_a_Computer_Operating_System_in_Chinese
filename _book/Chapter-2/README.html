@@ -1,0 +1,376 @@
+<!DOCTYPE HTML>
+<html lang="en-US" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>建立开发环境 | 如何做一个计算机操作系统</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="这是一本介绍用C/C++从零开始写一个操作系统的在线书籍">
+        <meta name="keywords" content="">
+        <meta name="generator" content="GitBook 1.5.0">
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+        
+    
+    
+    <link rel="next" href="../Chapter-3/README.html" />
+    
+    
+    <link rel="prev" href="../Chapter-1/README.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="2" data-basepath=".." data-revision="1425819891260">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+    	
+    	
+    	
+
+        
+
+        
+    
+        
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                         介绍
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="1" data-path="Chapter-1/README.html">
+            
+                
+                    <a href="../Chapter-1/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                         介绍x86体系结构和我们的操作系统
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter active" data-level="2" data-path="Chapter-2/README.html">
+            
+                
+                    <a href="../Chapter-2/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                         建立开发环境
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="3" data-path="Chapter-3/README.html">
+            
+                
+                    <a href="../Chapter-3/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                         GRUB的初次启动
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="4" data-path="Chapter-4/README.html">
+            
+                
+                    <a href="../Chapter-4/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                         操作系统的主干和C++运行时
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="5" data-path="Chapter-5/README.html">
+            
+                
+                    <a href="../Chapter-5/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                         管理x86体系结构的基础类
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="6" data-path="Chapter-6/README.html">
+            
+                
+                    <a href="../Chapter-6/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                         GDT
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="7" data-path="Chapter-7/README.html">
+            
+                
+                    <a href="../Chapter-7/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                         IDT和中断
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="8" data-path="Chapter-8/README.html">
+            
+                
+                    <a href="../Chapter-8/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                         内存管理:物理内存和虚存
+                    </a>
+                
+            
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+    	
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header clearfix">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle share dropdown"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="instapaper" class="button">Instapaper</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right weibo-sharing-link sharing-link" data-sharing="weibo" aria-label="Share on Weibo"><i class="fa fa-weibo"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right qq-sharing-link sharing-link" data-sharing="qq" aria-label="Share on QQ"><i class="fa fa-qq"></i></a>
+    
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn qrcode-toggle-dropdown qrcode-sharing-link sharing-link" data-sharing="qrcode"  aria-label="Share on QRCode"><i class="fa fa-qrcode"></i></a>
+        <div class="dropdown-menu font-settings dropdown-left" id="dropdown-qrcode">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="qrcode" id="qrcode">
+                <input type="hidden" name="last_url" id="last_url" value="" />
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >如何做一个计算机操作系统</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-gitbook_332">
+                    
+                        <h2 id="-">第二章: 建立开发环境</h2>
+<p>第一步是设置一个好的和可行的开发环境. 使用Vagrant和Virtualbox, 你可以在所有系统(Linux, Windows 或 Mac)中编译和测试你的操作系统.</p>
+<h3 id="-vagrant">安装 Vagrant</h3>
+<blockquote>
+<p>Vagrant是创建和配置虚拟开发环境的免费和开源软件. 它可以被视为VirtualBox的包装器.ox.</p>
+</blockquote>
+<p>Vagrant能帮我们在你使用的任何系统中创建一个干净的虚拟开发环境</p>
+<p>第一步是从 <a href="http://www.vagrantup.com/" target="_blank">http://www.vagrantup.com/</a> 下载和安装Vagrant</p>
+<h3 id="-virtualbox">安装 Virtualbox</h3>
+<blockquote>
+<p>Oracle VM VirtualBox是为x86和基于ADM64/Intel64的电脑设计的虚拟化软件包</p>
+</blockquote>
+<p>Vagrant需要Virtualbox才能工作, 从<a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">https://www.virtualbox.org/wiki/Downloads</a> 可以下载和安装与你操作系统对应的版本</p>
+<h3 id="">开始并测试你的开发环境</h3>
+<p>Vagrant和VirtualBox安装好之后, 你需要为Vagrant下载ubuntu lucid32镜像:</p>
+<pre><code>vagrant box add lucid32 http://files.vagrantup.com/lucid32.box
+</code></pre><p>lucid32镜像准备好之后, 我们需要用一个 <em>Vagrantfile</em> 文件定义我们的开发环境, <a href="https://github.com/SamyPesse/How-to-Make-a-Computer-Operating-System/blob/master/src/Vagrantfile" target="_blank">新建一个名为 <em>Vagrantfile</em> 的文件</a>.这个文件定义了我们所需预先部署的环境: nasm, make, build-essential, grub and qemu.</p>
+<p>这样开启你的box:</p>
+<pre><code>vagrant up
+</code></pre><p>现在你可以通过使用ssh来连接virtual box, 进而访问你的box:</p>
+<pre><code>vagrant ssh
+</code></pre><p>把所有文件放到Vagrantfile所在的目录, 它存在于虚拟机的 <em>/vagrant</em> 目录. (在这个例子, Ubuntu Lucid32): </p>
+<pre><code>cd /vagrant
+</code></pre><h4 id="">建立并测试你的操作系统</h4>
+<p><a href="https://github.com/SamyPesse/How-to-Make-a-Computer-Operating-System/blob/master/src/Makefile" target="_blank"><strong>Makefile</strong></a> 文件定义了一些构建内核, 用户libc和用户程序的基本的规则.</p>
+<p>构建:</p>
+<pre><code>make all
+</code></pre><p>用qemu测试我们的操作系统</p>
+<pre><code>make run
+</code></pre><p>可以从<a href="http://wiki.qemu.org/download/qemu-doc.html" target="_blank">qemu模拟器文档</a>中获得qemu的相关文档.</p>
+<p>可以这样退出模拟器: Ctrl-a.</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../Chapter-1/README.html" class="navigation navigation-prev " aria-label="Previous page: 介绍x86体系结构和我们的操作系统"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../Chapter-3/README.html" class="navigation navigation-next " aria-label="Next page: GRUB的初次启动"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-ga/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-duoshuo/duoshuo.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-livereload/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":"white","family":"serif","size":2},"ga":{"token":"UA-39088953-8","configuration":"auto"},"duoshuo":{"short_name":"wiznote","theme":"default"}};
+    gitbook.start(config);
+});
+</script>
+
+        <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-39088953-8', 'auto');ga('send', 'pageview');</script>
+    </body>
+    
+</html>

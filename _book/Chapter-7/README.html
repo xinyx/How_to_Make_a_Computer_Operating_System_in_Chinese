@@ -1,0 +1,595 @@
+<!DOCTYPE HTML>
+<html lang="en-US" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>IDT和中断 | 如何做一个计算机操作系统</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="这是一本介绍用C/C++从零开始写一个操作系统的在线书籍">
+        <meta name="keywords" content="">
+        <meta name="generator" content="GitBook 1.5.0">
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+        
+    
+    
+    <link rel="next" href="../Chapter-8/README.html" />
+    
+    
+    <link rel="prev" href="../Chapter-6/README.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="7" data-basepath=".." data-revision="1425819891260">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+    	
+    	
+    	
+
+        
+
+        
+    
+        
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                         介绍
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="1" data-path="Chapter-1/README.html">
+            
+                
+                    <a href="../Chapter-1/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                         介绍x86体系结构和我们的操作系统
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="2" data-path="Chapter-2/README.html">
+            
+                
+                    <a href="../Chapter-2/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                         建立开发环境
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="3" data-path="Chapter-3/README.html">
+            
+                
+                    <a href="../Chapter-3/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                         GRUB的初次启动
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="4" data-path="Chapter-4/README.html">
+            
+                
+                    <a href="../Chapter-4/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                         操作系统的主干和C++运行时
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="5" data-path="Chapter-5/README.html">
+            
+                
+                    <a href="../Chapter-5/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                         管理x86体系结构的基础类
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="6" data-path="Chapter-6/README.html">
+            
+                
+                    <a href="../Chapter-6/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                         GDT
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter active" data-level="7" data-path="Chapter-7/README.html">
+            
+                
+                    <a href="../Chapter-7/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                         IDT和中断
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="8" data-path="Chapter-8/README.html">
+            
+                
+                    <a href="../Chapter-8/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                         内存管理:物理内存和虚存
+                    </a>
+                
+            
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+    	
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header clearfix">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle share dropdown"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="instapaper" class="button">Instapaper</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right weibo-sharing-link sharing-link" data-sharing="weibo" aria-label="Share on Weibo"><i class="fa fa-weibo"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right qq-sharing-link sharing-link" data-sharing="qq" aria-label="Share on QQ"><i class="fa fa-qq"></i></a>
+    
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn qrcode-toggle-dropdown qrcode-sharing-link sharing-link" data-sharing="qrcode"  aria-label="Share on QRCode"><i class="fa fa-qrcode"></i></a>
+        <div class="dropdown-menu font-settings dropdown-left" id="dropdown-qrcode">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="qrcode" id="qrcode">
+                <input type="hidden" name="last_url" id="last_url" value="" />
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >如何做一个计算机操作系统</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-gitbook_331">
+                    
+                        <h2 id="-idt">第七章: IDT和中断</h2>
+<p>中断是硬件和软件向处理器触发的信号, 指示一个需要立即引起注意的事件.</p>
+<p>有三种类型的中断:</p>
+<ul>
+<li><strong>硬件中断:</strong> 由外设(键盘, 鼠标, 硬盘, ...)发送给处理器. 硬件中断被引入是为了减少处理器轮询和等待外部事件的宝贵时间.</li>
+<li><strong>软件中断:</strong> 自动地由软件初始化, 用来管理系统调用.</li>
+<li><strong>异常:</strong>  用来处理程序在执行过程中出现的错误或事件, 这些错误或事件很异常, 不能由程序自身处理(如除零, 页错误, ...). </li>
+</ul>
+<h4 id="">一个键盘的例子:</h4>
+<p>当用户在键盘上按键时, 键盘控制器将向中断控制器发送一个中断. 如果这个中断没有被屏蔽, 中断控制器将向处理器发送一个中断, 处理器将执行一个例程来管理中断(按键或释放键), 例如, 这个例程可以从键盘控制器获得被按的键并将其打印到屏幕上. 一旦完成字符处理例程, 被中断的工作就可以继续了. </p>
+<h4 id="pic">什么是PIC?</h4>
+<p><a href="http://en.wikipedia.org/wiki/Programmable_Interrupt_Controller" target="_blank">PIC</a> (可编程中断处理器)是一个设备, 用于结合多个中断源到一个或多个CPU总线上, 同时允许为中断输出分配优先级. 当设备要发送多个中断输出时, 需要按照相关优先级依次进行. </p>
+<p>最注明的PIC是8259A, 每个8259A可以处理8个设备, 但是多数计算机都有两个控制器:一个主控制器, 一个从控制器. 这能使计算机管理来自14个设备的中断.</p>
+<p>本章我们需要为这个控制器编程来初始化和屏蔽中断.</p>
+<h4 id="-idt">什么是 IDT?</h4>
+<blockquote>
+<p>中断描述符表(IDT)是x86架构使用的一种数据结构, 用来实现一个中断向量表. 处理器使用IDT来决定对中断和异常的正确回应.</p>
+</blockquote>
+<p>我们的kernel将使用IDT定义中断发生时需要执行的多个函数.</p>
+<p>与GDT一样, IDT被汇编指令LIDTL加载. 它期望的IDT描述结构的地址如下:</p>
+<pre><code class="lang-cpp"><span class="hljs-keyword">struct</span> idtr {
+    u16 limite;
+    u32 base;
+} __attribute__ ((packed));
+</code></pre>
+<p>The IDT table is composed of IDT segments with the following structure:</p>
+<pre><code class="lang-cpp"><span class="hljs-keyword">struct</span> idtdesc {
+    u16 offset0_15;
+    u16 select;
+    u16 type;
+    u16 offset16_31;
+} __attribute__ ((packed));
+</code></pre>
+<p><strong>注意:</strong> “<strong>attribute</strong>((packed))“指令会通知gcc, 应该尽可能使用小端方式使用这个结构。如果没有这个指令, gcc将加进一些字节来优化内存对齐和期间执行的访问. </p>
+<p>现在我们需要定义我们的IDT表并且用LIDTL加载它. IDT可以存储在内存的任何位置, 只需使用IDTR寄存器将它的地址发送给进程即可.</p>
+<p>这是一个常见中断的表格(可屏蔽硬件中断被成为IRQ):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">IRQ</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td>Programmable Interrupt Timer Interrupt</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td>Keyboard Interrupt</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td>Cascade (used internally by the two PICs. never raised)</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td>COM2 (if enabled)</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td>COM1 (if enabled)</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td>LPT2 (if enabled)</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td>Floppy Disk</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td>LPT1</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td>CMOS real-time clock (if enabled)</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td>Free for peripherals / legacy SCSI / NIC</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td>Free for peripherals / SCSI / NIC</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td>Free for peripherals / SCSI / NIC</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td>PS2 Mouse</td>
+</tr>
+<tr>
+<td style="text-align:center">13</td>
+<td>FPU / Coprocessor / Inter-processor</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td>Primary ATA Hard Disk</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td>Secondary ATA Hard Disk</td>
+</tr>
+</tbody>
+</table>
+<h4 id="">怎样初始化中断?</h4>
+<p>这是一个定义IDT段的简单例子.</p>
+<pre><code class="lang-cpp"><span class="hljs-keyword">void</span> init_idt_desc(u16 select, u32 offset, u16 type, <span class="hljs-keyword">struct</span> idtdesc *desc)
+{
+    desc-&gt;offset0_15 = (offset &amp; <span class="hljs-number">0xffff</span>);
+    desc-&gt;select = select;
+    desc-&gt;type = type;
+    desc-&gt;offset16_31 = (offset &amp; <span class="hljs-number">0xffff0000</span>) &gt;&gt; <span class="hljs-number">16</span>;
+    <span class="hljs-keyword">return</span>;
+}
+</code></pre>
+<p>现在我们可以初始化这个中断. </p>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> IDTBASE    0x00000000</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> IDTSIZE 0xFF</span>
+idtr kidtr;
+</code></pre>
+<pre><code class="lang-cpp"><span class="hljs-keyword">void</span> init_idt(<span class="hljs-keyword">void</span>)
+{
+    <span class="hljs-comment">/* Init irq */</span>
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; IDTSIZE; i++)
+        init_idt_desc(<span class="hljs-number">0x08</span>, (u32)_asm_schedule, INTGATE, &amp;kidt[i]); <span class="hljs-comment">//</span>
+
+    <span class="hljs-comment">/* Vectors  0 -&gt; 31 are for exceptions */</span>
+    init_idt_desc(<span class="hljs-number">0x08</span>, (u32) _asm_exc_GP, INTGATE, &amp;kidt[<span class="hljs-number">13</span>]);        <span class="hljs-comment">/* #GP */</span>
+    init_idt_desc(<span class="hljs-number">0x08</span>, (u32) _asm_exc_PF, INTGATE, &amp;kidt[<span class="hljs-number">14</span>]);     <span class="hljs-comment">/* #PF */</span>
+
+    init_idt_desc(<span class="hljs-number">0x08</span>, (u32) _asm_schedule, INTGATE, &amp;kidt[<span class="hljs-number">32</span>]);
+    init_idt_desc(<span class="hljs-number">0x08</span>, (u32) _asm_int_1, INTGATE, &amp;kidt[<span class="hljs-number">33</span>]);
+
+    init_idt_desc(<span class="hljs-number">0x08</span>, (u32) _asm_syscalls, TRAPGATE, &amp;kidt[<span class="hljs-number">48</span>]);
+    init_idt_desc(<span class="hljs-number">0x08</span>, (u32) _asm_syscalls, TRAPGATE, &amp;kidt[<span class="hljs-number">128</span>]); <span class="hljs-comment">//48</span>
+
+    kidtr.limite = IDTSIZE * <span class="hljs-number">8</span>;
+    kidtr.base = IDTBASE;
+
+
+    <span class="hljs-comment">/* Copy the IDT to the memory */</span>
+    <span class="hljs-built_in">memcpy</span>((<span class="hljs-keyword">char</span> *) kidtr.base, (<span class="hljs-keyword">char</span> *) kidt, kidtr.limite);
+
+    <span class="hljs-comment">/* Load the IDTR registry */</span>
+    <span class="hljs-keyword">asm</span>(<span class="hljs-string">"lidtl (kidtr)"</span>);
+}
+</code></pre>
+<p>初始化IDT后, 我们需要配置PIC来激活中断. 以下函数将配置两个PIC, 这是通过使用处理器的输出端口<code>io.outb</code>来写入其内部寄存器实现的. 我们用这些端口配置PIC: </p>
+<ul>
+<li>Master PIC: 0x20 and 0x21</li>
+<li>Slave PIC: 0xA0 and 0xA1</li>
+</ul>
+<p>对于一个PIC来说, 有两个类型的注册过程: </p>
+<ul>
+<li>ICW (初始化命令字): 重新初始化控制器</li>
+<li>OCW (操作控制字): 一旦初始化便配置控制器(用来屏蔽/打开中断)</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-keyword">void</span> init_pic(<span class="hljs-keyword">void</span>)
+{
+    <span class="hljs-comment">/* Initialization of ICW1 */</span>
+    io.outb(<span class="hljs-number">0x20</span>, <span class="hljs-number">0x11</span>);
+    io.outb(<span class="hljs-number">0xA0</span>, <span class="hljs-number">0x11</span>);
+
+    <span class="hljs-comment">/* Initialization of ICW2 */</span>
+    io.outb(<span class="hljs-number">0x21</span>, <span class="hljs-number">0x20</span>);    <span class="hljs-comment">/* start vector = 32 */</span>
+    io.outb(<span class="hljs-number">0xA1</span>, <span class="hljs-number">0x70</span>);    <span class="hljs-comment">/* start vector = 96 */</span>
+
+    <span class="hljs-comment">/* Initialization of ICW3 */</span>
+    io.outb(<span class="hljs-number">0x21</span>, <span class="hljs-number">0x04</span>);
+    io.outb(<span class="hljs-number">0xA1</span>, <span class="hljs-number">0x02</span>);
+
+    <span class="hljs-comment">/* Initialization of ICW4 */</span>
+    io.outb(<span class="hljs-number">0x21</span>, <span class="hljs-number">0x01</span>);
+    io.outb(<span class="hljs-number">0xA1</span>, <span class="hljs-number">0x01</span>);
+
+    <span class="hljs-comment">/* mask interrupts */</span>
+    io.outb(<span class="hljs-number">0x21</span>, <span class="hljs-number">0x0</span>);
+    io.outb(<span class="hljs-number">0xA1</span>, <span class="hljs-number">0x0</span>);
+}
+</code></pre>
+<h4 id="pic-icw">PIC ICW配置细节</h4>
+<p>注册过程必须按顺序执行.</p>
+<p><strong>ICW1 (port 0x20 / port 0xA0)</strong></p>
+<pre><code>|0|0|0|1|x|0|x|x|
+         |   | +--- with ICW4 (1) or without (0)
+         |   +----- one controller (1), or cascade (0)
+         +--------- triggering by level (level) (1) or by edge (edge) (0)
+</code></pre><p><strong>ICW2 (port 0x21 / port 0xA1)</strong></p>
+<pre><code>|x|x|x|x|x|0|0|0|
+ | | | | |
+ +----------------- base address for interrupts vectors
+</code></pre><p><strong>ICW2 (port 0x21 / port 0xA1)</strong></p>
+<p>主控制器:</p>
+<pre><code>|x|x|x|x|x|x|x|x|
+ | | | | | | | |
+ +------------------ slave controller connected to the port yes (1), or no (0)
+</code></pre><p>从控制器:</p>
+<pre><code>|0|0|0|0|0|x|x|x|  pour l&#39;esclave
+           | | |
+           +-------- Slave ID which is equal to the master port
+</code></pre><p><strong>ICW4 (port 0x21 / port 0xA1)</strong></p>
+<p>用来定义控制器应该工作在什么模式.</p>
+<pre><code>|0|0|0|x|x|x|x|1|
+       | | | +------ mode &quot;automatic end of interrupt&quot; AEOI (1)
+       | | +-------- mode buffered slave (0) or master (1)
+       | +---------- mode buffered (1)
+       +------------ mode &quot;fully nested&quot; (1)
+</code></pre><h4 id="idtasm">为什么idt段抵消了我们的ASM函数?</h4>
+<p>你应该注意到了, 当我初始化我们的IDT段时, 我在汇编语言中使用偏移来分段代码. 不同的函数定义在<a href="https://github.com/SamyPesse/How-to-Make-a-Computer-Operating-System/blob/master/src/kernel/arch/x86/x86int.asm" target="_blank">x86int.asm</a>, 用了以下实施方案:</p>
+<pre><code class="lang-asm">%macro    SAVE_REGS 0
+    pushad
+    push ds
+    push es
+    push fs
+    push gs
+    push ebx
+    mov bx,0x10
+    mov ds,bx
+    pop ebx
+%endmacro
+
+%macro    RESTORE_REGS 0
+    pop gs
+    pop fs
+    pop es
+    pop ds
+    popad
+%endmacro
+
+%macro    INTERRUPT 1
+global _asm_int_%1
+_asm_int_%1:
+    SAVE_REGS
+    push %1
+    call isr_default_int
+    pop eax    ;;a enlever sinon
+    mov al,0x20
+    out 0x20,al
+    RESTORE_REGS
+    iret
+%endmacro
+</code></pre>
+<p>这些宏将用来定义中断段, 防止不同的注册过程被打断, 这在多任务中很有用.</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../Chapter-6/README.html" class="navigation navigation-prev " aria-label="Previous page: GDT"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../Chapter-8/README.html" class="navigation navigation-next " aria-label="Next page: 内存管理:物理内存和虚存"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-ga/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-duoshuo/duoshuo.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-livereload/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":"white","family":"serif","size":2},"ga":{"token":"UA-39088953-8","configuration":"auto"},"duoshuo":{"short_name":"wiznote","theme":"default"}};
+    gitbook.start(config);
+});
+</script>
+
+        <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-39088953-8', 'auto');ga('send', 'pageview');</script>
+    </body>
+    
+</html>
